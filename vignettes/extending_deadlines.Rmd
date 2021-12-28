@@ -1,0 +1,25 @@
+---
+title: "Extending ack deadlines when dealing with long computations"
+author: "Andrea Dodet"
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{googlePubsubR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Acking deadlines and long computations
+
+The most basic of Pub/Sub workflows usually looks somehting like this
+
+1. Pull data from a Pub/Sub subscription (having a `ack_deadline=10`)
+2. Start running slow computations on the data (let's say they'll take 15 seconds)
+3. When finished, ack the message.
+
+Step 3 will obviously fail as the message to re-delivered while slow computations were running and has now 
+a new `ackId`. The Python client library for Pub/Sub seems to automatically deal with this by extending 
+the `ackDeadline` whenever needed.
+
+## A possible approach
+
+
